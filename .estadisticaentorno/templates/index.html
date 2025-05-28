@@ -2,86 +2,52 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analizador de Encuestas y Probabilidades</title>
+    <title>Datos Demográficos - Página 1</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-800">
-    <div class="container mx-auto px-4 py-6">
-        <h1 class="text-3xl font-bold mb-4">Analizador de Encuestas y Probabilidades</h1>
+<body class="bg-gray-100 text-gray-800 p-6">
+    <h1 class="text-3xl font-bold mb-6">Datos Demográficos (1/2)</h1>
 
-        <form method="POST" enctype="multipart/form-data" class="mb-6">
-            <label class="block mb-2 font-semibold">Subir archivo Excel:</label>
-            <input type="file" name="file" accept=".xlsx" class="mb-2 block w-full" required>
-            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
-                Subir y Analizar
-            </button>
-        </form>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {% for plot in plots %}
+        <img src="{{ url_for('static', filename=plot) }}" alt="Gráfica" class="rounded shadow">
+        {% endfor %}
+    </div>
 
-        {% if data_uploaded %}
-        <h2 class="text-2xl font-semibold mb-2">Gráficas Demográficas:</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {% for plot in plots %}
-            <div>
-                <img src="{{ url_for('static', filename=plot) }}" alt="Gráfica" class="rounded shadow">
-            </div>
-            {% endfor %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+        <div class="bg-white p-4 rounded shadow">
+            <h2 class="text-xl font-semibold mb-2">¿Cuál es tu genero?</h2>
+            <p>Fueron encuestadas 54 personas, de las cuales 50% se identifican con el genero masculino y
+                las otras con el genero femenino.</p>
+            </p>
         </div>
-        {% endif %}
-
-        <hr class="my-8">
-
-        <h2 class="text-2xl font-semibold mb-4">Cálculo de Probabilidades</h2>
-        <form method="POST" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block font-medium">Media:</label>
-                    <input type="number" step="any" name="media" class="w-full p-2 border rounded" required>
-                </div>
-                <div>
-                    <label class="block font-medium">Desviación estándar:</label>
-                    <input type="number" step="any" name="desviacion" class="w-full p-2 border rounded" required>
-                </div>
-                <div>
-                    <label class="block font-medium">Tipo de cálculo:</label>
-                    <select name="tipo" class="w-full p-2 border rounded">
-                        <option value="exacto">Exactamente igual a</option>
-                        <option value="mayor">Mayor que</option>
-                        <option value="menor">Menor que</option>
-                        <option value="entre">Entre dos valores</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block font-medium">Valor:</label>
-                    <input type="number" step="any" name="valor" class="w-full p-2 border rounded">
-                </div>
-                <div>
-                    <label class="block font-medium">Valor mínimo (entre):</label>
-                    <input type="number" step="any" name="valor_min" class="w-full p-2 border rounded">
-                </div>
-                <div>
-                    <label class="block font-medium">Valor máximo (entre):</label>
-                    <input type="number" step="any" name="valor_max" class="w-full p-2 border rounded">
-                </div>
-            </div>
-
-            <button type="submit" name="calcular" value="1" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">
-                Calcular
-            </button>
-        </form>
-
-        {% if resultado is not none %}
-        <div class="mt-6">
-            <h3 class="text-xl font-semibold">Resultado de la probabilidad:</h3>
-            <p class="text-lg">Probabilidad: <span class="text-blue-600">{{ resultado | round(6) }}</span></p>
+        <div class="bg-white p-4 rounded shadow">
+            <h2 class="text-xl font-semibold mb-2">¿Cuál es tu edad?</h2>
+            <p>Fueron encuestadas 54 personas, de las cuales un 5.6% (3 personas) es menor de 15 años,
+                un 11.1% (6 personas) tiene entre 15 y 18 años, un 55.6% (30 personas) tiene entre 19 y 24 años,
+                un 27.8% (15 personas) tiene entre 25 años o más.
+            </p>
+        </div>
+        <div class="bg-white p-4 rounded shadow">
+            <h2 class="text-xl font-semibold mb-2">¿En dondé vive?</h2>
+            <p>
+                Fueron encuestadas 54 personas, de las cuales un 3.8% (2 personas) vive en San Pedro Pinula,
+                un 61.5% (33 personas) vive en Jalapa, un 7.7% (4 personas) vive en Monjas,
+                un 3.8% (2 personas) vive en San Manuel Chaparrón,
+                un 5.8% (3 personas) vive en San Carlos Alzatate,
+                un 1.9% (1 persona) vive en San Luis Jilotepeque,
+                un 15.4% (8 personas) vive en Mataquescuintla.
+            </p>
         </div>
 
-        {% if grafica_prob %}
-        <div class="mt-4">
-            <img src="{{ url_for('static', filename=grafica_prob) }}" alt="Gráfica de probabilidad" class="rounded shadow">
-        </div>
-        {% endif %}
-        {% endif %}
+    </div>
+
+    <div class="mt-6">
+        <a href="{{ url_for('segunda') }}" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+            Siguiente página →
+        </a>
     </div>
 </body>
 </html>
+
+

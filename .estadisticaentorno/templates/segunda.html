@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Datos Demográficos - Página 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 p-6">
+    <h1 class="text-3xl font-bold mb-6">Datos Demográficos (2/2)</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for plot in plots %}
+        <img src="{{ url_for('static', filename=plot) }}" alt="Gráfica" class="rounded shadow">
+        {% endfor %}
+    </div>
+
+    <div class="mt-6">
+        <a href="{{ url_for('index') }}" class="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700">
+            ← Volver a la página anterior
+        </a>
+    </div>
+</body>
+</html>
