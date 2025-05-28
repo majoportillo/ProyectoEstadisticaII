@@ -60,7 +60,7 @@ def segunda():
     plots.append(generar_plot(row[['Jalapa', 'San luis jilotepeque', 'mataquescuintla']],
                                'Zonas destacadas', 'salmon', rotacion=30))
 
-    return render_template('pagina2.html', plots=plots)
+    return render_template('segunda.html', plots=plots)
 
 if __name__ == '__main__':
     app.run(debug=True) # Ejecuta la aplicación Flask en modo debug
