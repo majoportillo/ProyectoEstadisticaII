@@ -35,7 +35,7 @@ def index():
 
     plots = [] 
 
-    # Genero
+    # Generar gráficos para cada categoría
     plots.append(generar_plot(row[['Masculino', 'Femenino']], 'Distribución por Género', ['skyblue', 'lightpink']))
     plots.append(generar_plot(row[['Menor de 15 años', '15-18 años', '19-24 años', '25 años o más']],
                                'Distribución por Edad', 'lightgreen'))
@@ -45,22 +45,48 @@ def index():
 
     return render_template('index.html', plots=plots) 
 
-@app.route('/segunda') # ruta para la segunda página html
+@app.route('/segunda')
 def segunda():
-    excel_file = os.path.join(UPLOAD_FOLDER, 'Datos_demograficos.xlsx') # ruta del archivo excel de datos demo
-    df = pd.read_excel(excel_file)
-    row = df.iloc[0]
+    plot_descriptions = []
 
-    plots = []
+    # ¿Cuentas con redes sociales?
+    df1 = pd.read_excel(os.path.join(UPLOAD_FOLDER, 'Cuentas_con_redes.xlsx')) #lee el arcihvo de excel
+    series1 = df1.iloc[0] #toma la primera fila
+    plot1 = generar_plot(series1, '¿Cuentas con redes sociales?', ['green', 'red']) #genera la grafica
+    desc1 = "La mayoría de los encuestados indicaron si tener redes sociales." #genera la descripcion del grafico
+    plot_descriptions.append((plot1, desc1)) # lo agrega a una listita
 
-    # lista de gráficos para la segunda página
-    plots.append(generar_plot(row[['Masculino', 'Femenino']], 'Repetición - Género', ['skyblue', 'lightpink']))
-    plots.append(generar_plot(row[['Menor de 15 años', '15-18 años', '19-24 años', '25 años o más']],
-                               'Repetición - Edad', 'purple'))
-    plots.append(generar_plot(row[['Jalapa', 'San luis jilotepeque', 'mataquescuintla']],
-                               'Zonas destacadas', 'salmon', rotacion=30))
+    # ¿Cuál red social usas con mayor frecuencia?
+    df2 = pd.read_excel(os.path.join(UPLOAD_FOLDER, 'Red_Social_Frecuente.xlsx'))
+    series2 = df2.iloc[0]
+    plot2 = generar_plot(series2, 'Red Social de Uso Frecuente', 'blue')
+    desc2 = "Instagram y Facebook son las redes más frecuentemente usadas."
+    plot_descriptions.append((plot2, desc2))
 
-    return render_template('segunda.html', plots=plots)
+    # ¿Cuántas horas al día usas redes sociales?
+    df3 = pd.read_excel(os.path.join(UPLOAD_FOLDER, 'Horas_al_dia.xlsx'))
+    series3 = df3.iloc[0]
+    plot3 = generar_plot(series3, 'Horas al día en Redes Sociales', 'orange')
+    desc3 = "La mayoría pasa entre 2 a 4 horas al día en redes sociales."
+    plot_descriptions.append((plot3, desc3))
+
+    # ¿Qué propósito principal tienes al usar redes sociales?
+    df4 = pd.read_excel(os.path.join(UPLOAD_FOLDER, 'Proposito.xlsx'))
+    series4 = df4.iloc[0]
+    plot4 = generar_plot(series4, 'Propósito del Uso de Redes Sociales', 'purple')
+    desc4 = "El entretenimiento es el propósito más común para usar redes sociales."
+    plot_descriptions.append((plot4, desc4))
+
+    #¿Publicas contenido regularmente?
+    df5 = pd.read_excel(os.path.join(UPLOAD_FOLDER, 'Publicar_contenido.xlsx'))
+    series5 = df5.iloc[0]
+    plot5 = generar_plot(series5, '¿Publicas contenido regularmente?', ['teal', 'gray'])
+    desc5 = "Una minoría de los encuestados publica contenido regularmente."
+    plot_descriptions.append((plot5, desc5))
+
+    return render_template('segunda.html', plot_descriptions=plot_descriptions)
+
+
 
 if __name__ == '__main__':
-    app.run(debug=True) # Ejecuta la aplicación Flask en modo debug
+    app.run(debug=True) # Ejecuta

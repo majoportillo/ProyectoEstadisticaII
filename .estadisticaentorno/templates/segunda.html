@@ -2,22 +2,55 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Proyecto Estadstica II</title>
+    <title>Encuesta sobre Redes Sociales</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 <body class="bg-gray-100 text-gray-800 p-6">
     <h1 class="text-3xl font-bold mb-6">Encuesta sobre Redes Sociales</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {% for plot in plots %}
-        <img src="{{ url_for('static', filename=plot) }}" alt="Gráfica" class="rounded shadow">
+    <div class="space-y-10">
+        {% for plot, descripcion in plot_descriptions %}
+        <div class="bg-white p-4 rounded shadow">
+            <img src="{{ url_for('static', filename=plot) }}" alt="Gráfica" class="rounded shadow mb-4">
+            <p>{{ descripcion }}</p>
+        </div>
         {% endfor %}
     </div>
+    <br><br><br><br>
 
+    <div>
+        <h1 class="text-3xl font-bold mb-6">Modulo de analisis probabilístico</h1>
+        <h2 class="text-xl"><label for="Preguntas">Probabilidad de que</label></h2>
+        <select id="probabilidad" name="probabilidad" class="mt-2 block w-full p-2 border border-gray-300 rounded">
+            <option value="Exactamente">Exactamente</option>
+            <option value="ValorMayor">más de</option>
+            <option value="ValorMenor">menos de</option>
+            <option value="DosRangos">entre</option>
+        </select>
+
+        <div id="campos"></div>
+
+        <h2 class="text-xl"><label for="Preguntas"></label></h2>
+        <select id="personas" name="personas" class="mt-2 block w-full p-2 border border-gray-300 rounded">
+            <option value="General">Personas</option>
+            <option value="ValorMayor">Hombres</option>
+            <option value="ValorMenor">Mujeres</option>
+        </select>
+         <!-- Otro select o otro metodo de formulario para seleccionar los datos de preguntas-->
+
+        <button id="calcular" class="mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+            Calcular Probabilidad
+    </div>
+
+
+    <br><br><br>
     <div class="mt-6">
         <a href="{{ url_for('index') }}" class="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700">
             ← Volver a la página anterior
         </a>
     </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

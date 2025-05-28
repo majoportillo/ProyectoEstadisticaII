@@ -6,6 +6,26 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 p-6">
+    <!-- Caratula -->
+    <div id="caratula" class="flex flex-col items-center justify-center min-h-screen text-center">
+        <h1 class="text-4xl font-bold mb-4">Proyecto de Estadistica II</h1>
+        <h2 class="text-2xl mb-2">Encuesta sobre Redes Sociales</h2><br>
+        <p class="text-lg mb-6">Desarrollado por:</p>
+        <ul class="list-disc list-inside mb-6">
+            <li>Astrid Mileidy Peña Polanco 0907-23-5304</li>
+            <li>María José del Carmen Portillo López 0907-23-4166</li>
+            <li>Ángel Alexander López Martínez 0907-23-6457</li>
+            <li>Jorge Danilo Ucelo Roman 0907-23-18008</li>
+            <li>Madisson Gabriela Sermeño Rivas 0907-23-18114</li>
+            <li>Anibal Estuardo Ortiz Orellana 0907-22-9249</li><br><br>
+        <p class="text-lg mb-6">Haz clic en el botón para cargar los datos.</p>
+        <button onclick="mostrarContenido()" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+            Cargar datos
+        </button>
+    </div>
+
+    <!-- Contenido oculto inicialmente -->
+    <div id="contenido" style="display: none;">
     <h1 class="text-3xl font-bold mb-6">Datos Demográficos de la encuesta sobre Redes Sociales</h1>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -47,6 +67,9 @@
             Siguiente página →
         </a>
     </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
 
