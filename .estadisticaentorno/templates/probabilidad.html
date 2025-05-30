@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cálculo de Probabilidades</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 p-6">
+    <h1 class="text-3xl font-bold mb-6">Cálculo de Probabilidades usando la Aproximación Normal a la Binomial</h1>
+    <form method="post">
+        <label for="pregunta">Pregunta:</label>
+        <select name="pregunta" id="pregunta" required class="block w-full p-2 border border-gray-300 rounded">
+            {% for value, texto in preguntas %}
+            <option value="{{ value }}">{{ texto }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="genero">Género:</label>
+        <select name="genero" id="genero" class="block w-full p-2 border border-gray-300 rounded">
+            <option value="Todos">Todos</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+        </select>
+        <br>
+        <label for="zona">Zona:</label>
+        <select name="zona" id="zona" class="block w-full p-2 border border-gray-300 rounded">
+            {% for zona in zonas %}
+            <option value="{{ zona }}">{{ zona }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="tipo">Tipo de cálculo:</label>
+        <select name="tipo" id="tipo" required class="block w-full p-2 border border-gray-300 rounded" onchange="mostrarCampos()">
+            <option value="exacto">Exactamente</option>
+            <option value="mayor">Más de</option>
+            <option value="menor">Menos de</option>
+            <option value="entre">Entre dos valores</option>
+        </select>
+        <br>
+        <div id="campos">
+            <label for="x1">Valor:</label>
+            <input type="number" name="x1" id="x1" required class="block w-full p-2 border border-gray-300 rounded">
+        </div>
+        <br>
+        <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Calcular</button>
+    </form>
+    <br>
+    {% if advertencia %}
+        <div class="bg-yellow-100 text-yellow-800 p-4 rounded shadow mb-4">
+            {{ advertencia }}
+        </div>
+    {% endif %}
+    {% if resultado %}
+        <div class="bg-white p-4 rounded shadow">
+            <h2 class="text-xl font-semibold mb-2">Resultados</h2>
+            <p><strong>Tamaño de muestra n:</strong> {{ resultado.n }}</p>
+            <p><strong>Proporción de éxito p:</strong> {{ resultado.p|round(4) }}</p>
+            <p><strong>Probabilidad:</strong> {{ resultado.probabilidad|round(4) }} %</p>
+            <p><strong>Media (μ):</strong> {{ resultado.mu|round(2) }}</p>
+            <p><strong>Desviación estándar (σ):</strong> {{ resultado.sigma|round(2) }}</p>
+            <p><strong>Z1:</strong> {{ resultado.z1|round(3) }}, <strong>Z2:</strong> {{ resultado.z2|round(3) }}</p>
+            {% if plot %}
+            <img src="{{ url_for('static', filename=plot) }}" alt="Curva Normal" class="rounded shadow mt-4">
+            {% endif %}
+        </div>
+    {% endif %}
+    <script>
+        function mostrarCampos() {
+            const tipo = document.getElementById('tipo').value;
+            const campos = document.getElementById('campos');
+            if (tipo === 'entre') {
+                campos.innerHTML = `
+                    <label for="x1">Valor mínimo:</label>
+                    <input type="number" name="x1" id="x1" required class="block w-full p-2 border border-gray-300 rounded">
+                    <label for="x2">Valor máximo:</label>
+                    <input type="number" name="x2" id="x2" required class="block w-full p-2 border border-gray-300 rounded">
+                `;
+            } else {
+                campos.innerHTML = `
+                    <label for="x1">Valor:</label>
+                    <input type="number" name="x1" id="x1" required class="block w-full p-2 border border-gray-300 rounded">
+                `;
+            }
+        }
+        document.addEventListener("DOMContentLoaded", mostrarCampos);
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Encuesta sobre Redes Sociales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 p-6">
+    <h1 class="text-3xl font-bold mb-6">Encuesta sobre Redes Sociales</h1>
+    <div class="space-y-10">
+        {% for plot, descripcion in plot_descriptions %}
+        <div class="bg-white p-4 rounded shadow">
+            <img src="{{ url_for('static', filename=plot) }}" alt="Gráfica" class="rounded shadow mb-4">
+            <p>{{ descripcion }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <br><br>
+    <div class="mt-6">
+        <a href="{{ url_for('probabilidad') }}" class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
+            Ir al Módulo de Probabilidad →
+        </a>
+        <a href="{{ url_for('index') }}" class="ml-4 bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700">
+            ← Volver a la página anterior
+        </a>
+    </div>
+</body>
+</html>
+
